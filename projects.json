@@ -1,0 +1,41 @@
+[
+  {
+    "title": "Age of Seraphs",
+    "featured": true,
+    "image": "https://github.com/WatermelonFrogy/watermelonfrogy.github.io/blob/main/images/ageofseraphsphoto.png?raw=true",
+    "description": "A rich, medium-fantasy civilization-building Vintage Story server where players guide seraphs to explore, settle, and shape the world. Featuring deep political intrigue, city planning, and community-driven storytelling, the game blends realism with fun progression mechanics.",
+    "tags": [
+      "Community Management & Engagement",
+      "C#",
+      "Mod Development",
+      "Project Management"
+    ],
+    "features": [
+      "Guide friends and players to build and expand civilizations",
+      "Engage in political intrigue and diplomacy",
+      "Plan and design cities with strategic layouts",
+      "Participate in community-driven storytelling"
+    ],
+    "timeline": "December 2024 - Current",
+    "role": "Founder",
+    "link": "https://discord.gg/ageofseraphs",
+    "source": null
+  },
+  {
+    "title": "SurVR",
+    "featured": false,
+    "image": "https://github.com/WatermelonFrogy/watermelonfrogy.github.io/blob/main/images/survr.png?raw=true",
+    "description": "A chaotic PC and VR cross-play survival game built in Unity. Survive together, or don’t — the world won’t wait for you to figure it out.",
+    "tags": ["Unity", "C#", "Multiplayer", "VR Development"],
+    "features": [
+      "Supports VR and PC crossplay",
+      "Dynamic building and crafting system",
+      "Procedural world generation",
+      "Co-op and competitive survival mechanics"
+    ],
+    "timeline": "2025 - In Development",
+    "role": "Sole Developer",
+    "link": null,
+    "source": "https://github.com/WatermelonFrogy/survr"
+  }
+]

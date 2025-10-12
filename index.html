@@ -61,15 +61,6 @@
               },
             },
             borderRadius: {
-              none: "0px",
-              sm: "4px",
-              DEFAULT: "8px",
-              md: "12px",
-              lg: "16px",
-              xl: "20px",
-              "2xl": "24px",
-              "3xl": "32px",
-              full: "9999px",
               button: "8px",
             },
             fontFamily: {
@@ -81,32 +72,51 @@
       };
     </script>
     <style>
-      :where([class^="ri-"])::before {
-          content: "\f3c2";
-      }
       body {
-          font-family: 'Inter', sans-serif;
+        font-family: 'Inter', sans-serif;
       }
       .sidebar-gradient {
-          background: linear-gradient(135deg, #F8BBD9 0%, #B8E6B8 100%);
+        background: linear-gradient(135deg, #F8BBD9 0%, #B8E6B8 100%);
       }
       .watermelon-gradient {
-          background: linear-gradient(135deg, #F8BBD9 0%, #EC4899 100%);
+        background: linear-gradient(135deg, #F8BBD9 0%, #EC4899 100%);
       }
       .mint-gradient {
-          background: linear-gradient(135deg, #B8E6B8 0%, #22C55E 100%);
+        background: linear-gradient(135deg, #B8E6B8 0%, #22C55E 100%);
       }
       .progress-bar {
-          background: linear-gradient(90deg, #F8BBD9 0%, #EC4899 100%);
+        background: linear-gradient(90deg, #F8BBD9 0%, #EC4899 100%);
+      }
+      @media (max-width: 768px) {
+        .page-content {
+          padding: 1.5rem !important;
+        }
+        h1.text-5xl {
+          font-size: 2rem;
+        }
+        .grid-cols-3,
+        .grid-cols-4 {
+          grid-template-columns: 1fr !important;
+        }
       }
     </style>
   </head>
+
   <body class="bg-gradient-to-br from-watermelon-50 to-mint-50 min-h-screen">
+
     <!-- Sidebar Navigation -->
     <div
-      class="fixed left-0 top-0 h-full w-80 sidebar-gradient p-8 shadow-xl z-10"
+      id="sidebar"
+      class="fixed left-0 top-0 h-full w-72 md:w-80 sidebar-gradient p-6 shadow-xl z-30 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out"
     >
-      <div class="text-center mb-12">
+      <div class="flex justify-between items-center mb-6 md:hidden">
+        <h1 class="text-xl font-pacifico text-white">WatermelonFrogy</h1>
+        <button id="closeSidebar" class="text-white text-2xl">
+          <i class="ri-close-line"></i>
+        </button>
+      </div>
+
+      <div class="text-center mb-12 hidden md:block">
         <div
           class="w-24 h-24 mx-auto mb-4 rounded-full bg-white/20 flex items-center justify-center"
         >
@@ -121,52 +131,41 @@
       </div>
 
       <nav class="space-y-4">
-        <a
-          href="#about"
-          class="nav-link flex items-center space-x-4 p-4 rounded-xl bg-white/20 text-white hover:bg-white/30 transition-all duration-300"
-          data-page="about"
-        >
-          <div class="w-6 h-6 flex items-center justify-center">
-            <i class="ri-user-line text-lg"></i>
-          </div>
+        <a href="#about" class="nav-link flex items-center space-x-4 p-4 rounded-xl bg-white/20 text-white hover:bg-white/30 transition-all duration-300" data-page="about">
+          <i class="ri-user-line text-lg"></i>
           <span class="font-medium">About</span>
         </a>
-        <a
-          href="#projects"
-          class="nav-link flex items-center space-x-4 p-4 rounded-xl text-white/80 hover:bg-white/20 transition-all duration-300"
-          data-page="projects"
-        >
-          <div class="w-6 h-6 flex items-center justify-center">
-            <i class="ri-folder-line text-lg"></i>
-          </div>
+        <a href="#projects" class="nav-link flex items-center space-x-4 p-4 rounded-xl text-white/80 hover:bg-white/20 transition-all duration-300" data-page="projects">
+          <i class="ri-folder-line text-lg"></i>
           <span class="font-medium">Projects</span>
         </a>
-        <a
-          href="#contact"
-          class="nav-link flex items-center space-x-4 p-4 rounded-xl text-white/80 hover:bg-white/20 transition-all duration-300"
-          data-page="contact"
-        >
-          <div class="w-6 h-6 flex items-center justify-center">
-            <i class="ri-mail-line text-lg"></i>
-          </div>
+        <a href="#contact" class="nav-link flex items-center space-x-4 p-4 rounded-xl text-white/80 hover:bg-white/20 transition-all duration-300" data-page="contact">
+          <i class="ri-mail-line text-lg"></i>
           <span class="font-medium">Contact</span>
         </a>
       </nav>
 
       <div class="absolute bottom-8 left-8 right-8">
         <div class="bg-white/10 rounded-xl p-4 text-center">
-          <div
-  class="w-6 h-6 mx-auto items-center justify-center"
->
-  <img src="https://github.com/WatermelonFrogy/watermelonfrogy.github.io/blob/main/images/frog.png?raw=true" alt="Fat Frog" class="max-w-full max-h-full object-contain">
-</div>
+          <div class="w-6 h-6 mx-auto items-center justify-center">
+            <img src="https://github.com/WatermelonFrogy/watermelonfrogy.github.io/blob/main/images/frog.png?raw=true" alt="Fat Frog" class="max-w-full max-h-full object-contain">
+          </div>
           <p class="text-white/80 text-xs">Powered by Coffee, Creativity, and Autism</p>
         </div>
       </div>
     </div>
 
+    <!-- Mobile Menu Button -->
+    <button
+      id="openSidebar"
+      class="fixed top-4 left-4 bg-watermelon-500 text-white p-3 rounded-full shadow-lg z-20 md:hidden transition-opacity"
+    >
+      <i class="ri-menu-line text-2xl"></i>
+    </button>
+
     <!-- Main Content -->
-    <div class="ml-80 min-h-screen">
+    <div id="mainContent" class="min-h-screen transition-all duration-300 md:ml-80">
+
       <!-- About Page -->
       <div id="about-page" class="page-content p-12">
         <div class="max-w-4xl mx-auto">
@@ -186,7 +185,7 @@
               </div>
             </div>
             <h1 class="text-5xl font-bold text-gray-800 mb-6">
-              Hello, I'm WatermelonFrogy! 🐸
+              Hello, I'm WatermelonFrogy!
             </h1>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
               Welcome to my little website! I'm a curious creator who loves building things, experiementing with random ideas, and turning high qualitiy metal into unusable scrap!
@@ -406,140 +405,30 @@
             </p>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Featured Project -->
+          <div id="projects-container" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <p class="text-center text-gray-500">Loading projects...</p>
+          </div>
+          
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg border border-watermelon-100 text-center mt-12"
+          >
             <div
-              class="lg:col-span-2 bg-white rounded-3xl shadow-xl overflow-hidden border border-watermelon-100"
+              class="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-watermelon-400 to-watermelon-600 rounded-full flex items-center justify-center"
             >
-              <div class="relative h-80">
-                <img
-                  src="https://github.com/WatermelonFrogy/watermelonfrogy.github.io/blob/main/images/ageofseraphsphoto.png?raw=true"
-                  alt="Age of Seraphs"
-                  class="w-full h-full object-cover object-middle"
-                />
-                <div class="absolute top-4 left-4">
-                  <span
-                    class="bg-watermelon-500 text-white px-3 py-1 rounded-full text-sm font-medium"
-                    >Featured</span
-                  >
-                </div>
-              </div>
-              <div class="p-8">
-                <div class="flex items-start justify-between mb-6">
-                  <div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">
-                      Age of Seraphs
-                    </h3>
-                    <p class="text-gray-600 leading-relaxed">
-                      A rich, medium-fantasy civilization-building Vintage Story server where players guide seraphs to explore, settle, and shape the world. Featuring deep political intrigue, city planning, and community-driven storytelling, the game blends realism with fun progression mechanics, letting players experience the rise of civilizations from humble beginnings to thriving capitals.
-                    </p>
-                  </div>
-                </div>
-
-                <div class="flex flex-wrap gap-2 mb-6">
-                  <span
-                    class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                    >Community Management & Engagement</span
-                  >
-                  <span
-                    class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm"
-                    >C#</span
-                  >
-                  <span
-                    class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
-                    >Mod Development</span
-                  >
-                  <span
-                    class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm"
-                    >Project Management</span
-                  >
-                </div>
-
-                <div class="grid grid-cols-2 gap-6 mb-6">
-                  <div>
-                <h4 class="font-semibold text-gray-800 mb-2">
-                    Key Features
-                </h4>
-                  <ul class="text-gray-600 text-sm space-y-1">
-                      <li>• Guide friends and players to build and expand civilizations</li>
-                      <li>• Engage in political intrigue and diplomacy</li>
-                      <li>• Plan and design cities with strategic layouts</li>
-                      <li>• Participate in community-driven storytelling</li>
-                  </ul>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-800 mb-2">Timeline</h4>
-                    <p class="text-gray-600 text-sm">December 2024 - Current</p>
-                    <p class="text-gray-600 text-sm mt-1">
-                      Role: Founder
-                    </p>
-                  </div>
-                </div>
-
-               <div class="flex space-x-4">
-                <a
-                    href="https://discord.gg/ageofseraphs"
-                    target="_blank"
-                    class="bg-watermelon-500 hover:bg-watermelon-600 text-white px-6 py-3 rounded-button font-medium transition-colors whitespace-nowrap"
-                >
-                    <i class="ri-external-link-line mr-2"></i>Check it out!
-                </a>
-                <button
-                    disabled
-                    class="bg-gray-300 text-gray-500 px-6 py-3 rounded-button font-medium whitespace-nowrap cursor-not-allowed"
-                >
-                    <i class="ri-github-line mr-2"></i>Source Code Unavailable
-                </button>
-                </div>
-              </div>
+              <i class="ri-lightbulb-line text-3xl text-white"></i>
             </div>
-
-            <!-- Coming Soon Projects -->
-            <div
-              class="bg-white rounded-2xl p-8 shadow-lg border border-mint-100 text-center"
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">Have an Idea?</h3>
+            <p class="text-gray-600 mb-6">
+              I love collaborating on creative projects! If you have an
+              interesting idea, let's chat about it.
+            </p>
+            <a
+              href="#contact"
+              class="nav-link bg-watermelon-500 hover:bg-watermelon-600 text-white px-6 py-3 rounded-button font-medium transition-colors whitespace-nowrap"
+              data-page="contact"
             >
-              <div
-                class="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-mint-400 to-mint-600 rounded-full flex items-center justify-center"
-              >
-                <i class="ri-add-line text-3xl text-white"></i>
-              </div>
-              <h3 class="text-xl font-semibold text-gray-800 mb-3">
-                More Projects Coming Soon!
-              </h3>
-              <p class="text-gray-600 mb-6">
-                I'm always working on new ideas and experiments. Check back soon
-                to see what I've been building!
-              </p>
-              <div class="bg-mint-50 rounded-xl p-4">
-                <p class="text-mint-700 text-sm font-medium">
-                  🚧 Currently in development: SurVR - A poorly made VR and PC crossplay survival game
-                </p>
-              </div>
-            </div>
-
-            <div
-              class="bg-white rounded-2xl p-8 shadow-lg border border-watermelon-100 text-center"
-            >
-              <div
-                class="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-watermelon-400 to-watermelon-600 rounded-full flex items-center justify-center"
-              >
-                <i class="ri-lightbulb-line text-3xl text-white"></i>
-              </div>
-              <h3 class="text-xl font-semibold text-gray-800 mb-3">
-                Have an Idea?
-              </h3>
-              <p class="text-gray-600 mb-6">
-                I love collaborating on creative projects! If you have an
-                interesting idea, let's chat about it.
-              </p>
-              <a
-                href="#contact"
-                class="nav-link bg-watermelon-500 hover:bg-watermelon-600 text-white px-6 py-3 rounded-button font-medium transition-colors whitespace-nowrap"
-                data-page="contact"
-              >
-                Let's Connect
-              </a>
-            </div>
+              Let's Connect
+            </a>
           </div>
         </div>
       </div>
@@ -687,7 +576,7 @@
             class="bg-white rounded-2xl p-8 shadow-lg border border-watermelon-100"
           >
             <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Contact Tips 💡
+              Contact Tips
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div class="text-center">
@@ -733,20 +622,53 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
 
-    <script id="navigation-handler">
+    <script>
+      // Sidebar toggle
+      const sidebar = document.getElementById("sidebar");
+      const openSidebar = document.getElementById("openSidebar");
+      const closeSidebar = document.getElementById("closeSidebar");
+      const mainContent = document.getElementById("mainContent");
+
+      function openMenu() {
+        sidebar.classList.remove("-translate-x-full");
+        openSidebar.classList.add("opacity-0", "pointer-events-none");
+        mainContent.classList.add("blur-sm");
+      }
+
+      function closeMenu() {
+        sidebar.classList.add("-translate-x-full");
+        openSidebar.classList.remove("opacity-0", "pointer-events-none");
+        mainContent.classList.remove("blur-sm");
+      }
+
+      openSidebar?.addEventListener("click", openMenu);
+      closeSidebar?.addEventListener("click", closeMenu);
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768) {
+          sidebar.classList.remove("-translate-x-full");
+          mainContent.classList.remove("blur-sm");
+          openSidebar.classList.remove("opacity-0", "pointer-events-none");
+        } else {
+          sidebar.classList.add("-translate-x-full");
+        }
+      });
+
+      // Page navigation
       document.addEventListener("DOMContentLoaded", function () {
         const navLinks = document.querySelectorAll(".nav-link");
         const pages = document.querySelectorAll(".page-content");
 
         function showPage(pageId) {
-          pages.forEach((page) => page.classList.add("hidden"));
+          pages.forEach((p) => p.classList.add("hidden"));
           document.getElementById(pageId + "-page").classList.remove("hidden");
 
-          navLinks.forEach((link) => {
-            link.classList.remove("bg-white/20");
-            link.classList.add("text-white/80");
+          navLinks.forEach((l) => {
+            l.classList.remove("bg-white/20");
+            l.classList.add("text-white/80");
           });
 
           const activeLink = document.querySelector(`[data-page="${pageId}"]`);
@@ -754,46 +676,137 @@
             activeLink.classList.add("bg-white/20");
             activeLink.classList.remove("text-white/80");
           }
+
+          // Close sidebar on mobile after clicking
+          if (window.innerWidth < 768) closeMenu();
         }
 
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function (e) {
+        navLinks.forEach((link) =>
+          link.addEventListener("click", (e) => {
             e.preventDefault();
-            const pageId = this.getAttribute("data-page");
+            const pageId = link.getAttribute("data-page");
             showPage(pageId);
-
-            const href = this.getAttribute("href");
-            if (href && href.startsWith("#")) {
-              history.pushState(null, null, href);
-            }
-          });
-        });
+            const href = link.getAttribute("href");
+            if (href?.startsWith("#")) history.pushState(null, null, href);
+          })
+        );
 
         const hash = window.location.hash.substring(1);
-        if (hash && ["about", "projects", "contact"].includes(hash)) {
-          showPage(hash);
-        } else {
-          showPage("about");
-        }
+        if (hash && ["about", "projects", "contact"].includes(hash)) showPage(hash);
+        else showPage("about");
       });
     </script>
 
-    <script id="smooth-scrolling">
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
         const style = document.createElement("style");
         style.textContent = `
-                      .page-content {
-                          opacity: 0;
-                          transform: translateY(20px);
-                          transition: all 0.3s ease-in-out;
-                      }
-                      .page-content:not(.hidden) {
-                          opacity: 1;
-                          transform: translateY(0);
-                      }
-                  `;
+          .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease-in-out;
+          }
+          .page-content:not(.hidden) {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        `;
         document.head.appendChild(style);
       });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const projectsContainer = document.getElementById("projects-container");
+
+      // Load projects from JSON file (your array structure)
+      fetch("projects.json")
+        .then((response) => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response.json();
+        })
+        .then((projects) => {
+          projectsContainer.innerHTML = ""; // clear placeholder text
+
+          projects.forEach((project) => {
+            const tagsHTML = project.tags
+              .map(
+                (tag) =>
+                  `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">${tag}</span>`
+              )
+              .join(" ");
+
+            const featuresHTML = project.features
+              .map((f) => `<li>${f}</li>`)
+              .join("");
+
+            const buttonsHTML = `
+              ${
+                project.link
+                  ? `<a href="${project.link}" target="_blank" class="bg-watermelon-500 hover:bg-watermelon-600 text-white px-6 py-3 rounded-button font-medium transition-colors whitespace-nowrap">
+                      <i class="ri-external-link-line mr-2"></i>Check it out!
+                    </a>`
+                  : ""
+              }
+              ${
+                project.source
+                  ? `<a href="${project.source}" target="_blank" class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-button font-medium transition-colors whitespace-nowrap">
+                      <i class="ri-github-line mr-2"></i>Source Code
+                    </a>`
+                  : `<button disabled class="bg-gray-300 text-gray-500 px-6 py-3 rounded-button font-medium whitespace-nowrap cursor-not-allowed">
+                      <i class="ri-github-line mr-2"></i>Source Code Unavailable
+                    </button>`
+              }
+            `;
+
+            const projectCard = `
+              <div class="${
+                project.featured
+                  ? "lg:col-span-2 bg-white rounded-3xl shadow-xl overflow-hidden border border-watermelon-100"
+                  : "bg-white rounded-2xl shadow-lg overflow-hidden border border-watermelon-100"
+              }">
+                <div class="relative h-80">
+                  <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover object-center">
+                  ${
+                    project.featured
+                      ? `<div class="absolute top-4 left-4">
+                          <span class="bg-watermelon-500 text-white px-3 py-1 rounded-full text-sm font-medium">Featured</span>
+                        </div>`
+                      : ""
+                  }
+                </div>
+                <div class="p-8">
+                  <div class="flex items-start justify-between mb-6">
+                    <div>
+                      <h3 class="text-2xl font-bold text-gray-800 mb-2">${project.title}</h3>
+                      <p class="text-gray-600 leading-relaxed">${project.description}</p>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap gap-2 mb-6">${tagsHTML}</div>
+                  <div class="grid grid-cols-2 gap-6 mb-6">
+                    <div>
+                      <h4 class="font-semibold text-gray-800 mb-2">Key Features</h4>
+                      <ul class="text-gray-600 text-sm space-y-1">${featuresHTML}</ul>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-800 mb-2">Timeline</h4>
+                      <p class="text-gray-600 text-sm">${project.timeline}</p>
+                      <p class="text-gray-600 text-sm mt-1">Role: ${project.role}</p>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap gap-4">${buttonsHTML}</div>
+                </div>
+              </div>
+            `;
+
+            projectsContainer.insertAdjacentHTML("beforeend", projectCard);
+          });
+        })
+        .catch((error) => {
+          console.error("Error loading projects:", error);
+          projectsContainer.innerHTML =
+            '<p class="text-red-500 text-center">Failed to load projects. Please try again later.</p>';
+        });
+    });
+  </script>
   </body>
 </html>
