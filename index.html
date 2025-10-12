@@ -896,92 +896,103 @@
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-    const gallery = document.getElementById("photo-gallery");
+      const gallery = document.getElementById("photo-gallery");
 
-    // Create modal element
-    const modal = document.createElement("div");
-    modal.id = "photoModal";
-    modal.className = "fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4";
-    modal.innerHTML = `
-      <div class="relative bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl">
-        <button id="closePhotoModal" class="absolute top-4 right-4 bg-watermelon-500 hover:bg-watermelon-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
-          <i class="ri-close-line text-2xl"></i>
-        </button>
-        <img id="modalImage" src="" alt="" class="w-full max-h-[80vh] object-contain bg-gray-100">
-        <div class="p-6 text-center">
-          <h2 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-2"></h2>
-          <p id="modalDesc" class="text-gray-600"></p>
+      // Create modal container
+      const modal = document.createElement("div");
+      modal.id = "photoModal";
+      modal.className = "fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-6 md:p-10";
+      modal.innerHTML = `
+        <div class="relative bg-white rounded-3xl shadow-2xl max-w-6xl w-full transform scale-95 opacity-0 transition-all duration-300 flex flex-col items-center overflow-hidden">
+          <button id="closePhotoModal" class="absolute top-4 right-4 bg-watermelon-500 hover:bg-watermelon-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg z-20">
+            <i class="ri-close-line text-2xl"></i>
+          </button>
+          <div class="relative w-full flex justify-center items-center bg-gray-100">
+            <img id="modalImage" src="" alt="" class="max-h-[80vh] w-auto object-contain transition-transform duration-300 rounded-2xl shadow-md">
+          </div>
+          <div class="p-6 md:p-8 text-center">
+            <h2 id="modalTitle" class="text-3xl font-bold text-gray-800 mb-2"></h2>
+            <p id="modalDesc" class="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed"></p>
+          </div>
         </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
+      `;
+      document.body.appendChild(modal);
 
-    const modalImage = modal.querySelector("#modalImage");
-    const modalTitle = modal.querySelector("#modalTitle");
-    const modalDesc = modal.querySelector("#modalDesc");
-    const closeModalBtn = modal.querySelector("#closePhotoModal");
+      const modalCard = modal.querySelector("div.relative.bg-white");
+      const modalImage = modal.querySelector("#modalImage");
+      const modalTitle = modal.querySelector("#modalTitle");
+      const modalDesc = modal.querySelector("#modalDesc");
+      const closeModalBtn = modal.querySelector("#closePhotoModal");
 
-    const openModal = (img, title, desc) => {
-      modalImage.src = img;
-      modalTitle.textContent = title;
-      modalDesc.textContent = desc;
-      modal.classList.remove("hidden");
-      document.body.classList.add("overflow-hidden");
-    };
+      function openModal(img, title, desc) {
+        modalImage.src = img;
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+        modal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
 
-    const closeModal = () => {
-      modal.classList.add("hidden");
-      document.body.classList.remove("overflow-hidden");
-    };
-
-    closeModalBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    // 🍉 Load photos from GitHub repo
-    fetch("https://api.github.com/repos/WatermelonFrogy/watermelonfrogy.github.io/contents/images/photos")
-      .then(res => res.json())
-      .then(files => {
-        gallery.innerHTML = "";
-
-        const imageFiles = files.filter(f => /\.(png|jpe?g|gif|webp)$/i.test(f.name));
-
-        imageFiles.forEach(file => {
-          const [title, descriptionWithExt] = file.name.split("+");
-          const description = descriptionWithExt
-            ? descriptionWithExt.replace(/\.[^/.]+$/, "")
-            : "";
-          const imageUrl = file.download_url;
-
-          const card = `
-            <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-watermelon-100 group relative cursor-pointer">
-              <img src="${imageUrl}" alt="${title}" loading="lazy"
-                  class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
-              <div class="absolute inset-0 bg-gradient-to-t from-watermelon-500/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                <h3 class="text-lg font-semibold text-white">${title}</h3>
-                <p class="text-sm text-white/90">${description}</p>
-              </div>
-            </div>
-          `;
-
-          const wrapper = document.createElement("div");
-          wrapper.innerHTML = card.trim();
-          const cardElement = wrapper.firstChild;
-
-          // Add click to open modal
-          cardElement.addEventListener("click", () =>
-            openModal(imageUrl, title, description)
-          );
-
-          gallery.appendChild(cardElement);
+        // Fade & scale animation
+        requestAnimationFrame(() => {
+          modalCard.classList.remove("scale-95", "opacity-0");
+          modalCard.classList.add("scale-100", "opacity-100");
         });
-      })
-      .catch(err => {
-        console.error("Error loading photos:", err);
-        gallery.innerHTML = `<p class="text-red-500 text-center col-span-full">Failed to load photos. Please try again later.</p>`;
+      }
+
+      function closeModal() {
+        modalCard.classList.remove("scale-100", "opacity-100");
+        modalCard.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+          modal.classList.add("hidden");
+          document.body.classList.remove("overflow-hidden");
+        }, 200);
+      }
+
+      closeModalBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
       });
-  });
+
+      // 🍉 Load photos dynamically from GitHub
+      fetch("https://api.github.com/repos/WatermelonFrogy/watermelonfrogy.github.io/contents/images/photos")
+        .then(res => res.json())
+        .then(files => {
+          gallery.innerHTML = "";
+          const imageFiles = files.filter(f => /\.(png|jpe?g|gif|webp)$/i.test(f.name));
+
+          imageFiles.forEach(file => {
+            const [title, descriptionWithExt] = file.name.split("+");
+            const description = descriptionWithExt
+              ? descriptionWithExt.replace(/\.[^/.]+$/, "")
+              : "";
+            const imageUrl = file.download_url;
+
+            const card = `
+              <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-watermelon-100 group relative cursor-pointer">
+                <img src="${imageUrl}" alt="${title}" loading="lazy"
+                    class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-watermelon-500/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <h3 class="text-lg font-semibold text-white">${title}</h3>
+                  <p class="text-sm text-white/90">${description}</p>
+                </div>
+              </div>
+            `;
+
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = card.trim();
+            const cardElement = wrapper.firstChild;
+
+            cardElement.addEventListener("click", () =>
+              openModal(imageUrl, title, description)
+            );
+
+            gallery.appendChild(cardElement);
+          });
+        })
+        .catch(err => {
+          console.error("Error loading photos:", err);
+          gallery.innerHTML = `<p class="text-red-500 text-center col-span-full">Failed to load photos. Please try again later.</p>`;
+        });
+    });
   </script>
   </body>
 </html>
