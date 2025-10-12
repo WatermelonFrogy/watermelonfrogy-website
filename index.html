@@ -143,6 +143,10 @@
           <i class="ri-mail-line text-lg"></i>
           <span class="font-medium">Contact</span>
         </a>
+        <a href="#photos" class="nav-link flex items-center space-x-4 p-4 rounded-xl text-white/80 hover:bg-white/20 transition-all duration-300" data-page="photos">
+          <i class="ri-image-2-line text-lg"></i>
+          <span class="font-medium">Photos</span>
+        </a>
       </nav>
 
       <div class="absolute bottom-8 left-8 right-8">
@@ -429,6 +433,23 @@
             >
               Let's Connect
             </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photos Page -->
+      <div id="photos-page" class="page-content p-12 hidden">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-gray-800 mb-6">Photo Gallery</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+              A collection of screenshots, builds, and random creative moments captured over time.
+            </p>
+          </div>
+
+          <!-- Photo Grid -->
+          <div id="photo-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <p class="text-gray-500 text-center col-span-full">Loading photos...</p>
           </div>
         </div>
       </div>
@@ -873,6 +894,41 @@
             '<p class="text-red-500 text-center">Failed to load projects. Please try again later.</p>';
         });
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const gallery = document.getElementById("photo-gallery");
+
+    fetch("https://api.github.com/repos/WatermelonFrogy/watermelonfrogy.github.io/contents/images/photos")
+      .then(res => res.json())
+      .then(files => {
+        gallery.innerHTML = "";
+
+        const imageFiles = files.filter(f => /\.(png|jpe?g|gif|webp)$/i.test(f.name));
+
+        imageFiles.forEach(file => {
+          const [title, descriptionWithExt] = file.name.split("+");
+          const description = descriptionWithExt
+            ? descriptionWithExt.replace(/\.[^/.]+$/, "")
+            : "";
+          const imageUrl = file.download_url;
+
+          const card = `
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-watermelon-100 group relative">
+              <img src="${imageUrl}" alt="${title}" class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                <h3 class="text-lg font-semibold text-white">${title}</h3>
+                <p class="text-sm text-white/90">${description}</p>
+              </div>
+            </div>
+          `;
+          gallery.insertAdjacentHTML("beforeend", card);
+        });
+      })
+      .catch(err => {
+        console.error("Error loading photos:", err);
+        gallery.innerHTML = `<p class="text-red-500 text-center col-span-full">Failed to load photos. Please try again later.</p>`;
+      });
+  });
   </script>
   </body>
 </html>
