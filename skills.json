@@ -27,13 +27,13 @@
   ],
   "learning": [
     {
-      "title": "Community Management",
+      "title": "Basic Community Management",
       "description": "Proper Communication, Transparent Communications, Better Community Engagement & Understanding",
       "gradient": "from-pink-400 to-red-600",
       "icon": "ri-brain-line",
-      "level": 4,
-      "xp": 350,
-      "maxXp": 4000,
+      "level": 1,
+      "xp": 925,
+      "maxXp": 1000,
       "theme": "watermelon"
     },
     {
@@ -42,7 +42,7 @@
       "gradient": "from-blue-400 to-purple-600",
       "icon": "https://github.com/WatermelonFrogy/watermelonfrogy.github.io/blob/main/images/icons/godot.png?raw=true",
       "level": 2,
-      "xp": 1250,
+      "xp": 250,
       "maxXp": 2000,
       "theme": "watermelon"
     },
@@ -51,9 +51,9 @@
       "description": "Forge Welding, Complex Shapes, Tool Treatment, and Functional Tools",
       "gradient": "from-green-400 to-teal-600",
       "icon": "https://github.com/WatermelonFrogy/watermelonfrogy.github.io/blob/main/images/icons/anvil.png?raw=true",
-      "level": 2,
+      "level": 3,
       "xp": 320,
-      "maxXp": 2000,
+      "maxXp": 3000,
       "theme": "watermelon"
     }
   ]
